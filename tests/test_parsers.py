@@ -1,6 +1,6 @@
 import unittest
 
-from studydb.parsers import *
+from studydb.parser import *
 
 
 ''''
@@ -19,29 +19,16 @@ http://www.dabeaz.com/ply/
 
 '''
 
-class TestParsers(unittest.TestCase):
+class TestParser(unittest.TestCase):
 
-    def test_projection(self):
+    def test_projection_parsing(self):
         expression = "select a.a,b.b,c from a,b where a.a = b.a;"
-        parser = SQLParser.get(expression)
-        self.assertTrue(isinstance(parser,ProjectionParser),"Did not get the projection parser.")
-        objects = parser.get_query_plan()
+        objects = parse_projection(expression)
+        print objects
+        expression = "select a.a,b.b,c from a,b;"
+        objects = parse_projection(expression)
         print objects
 
-    def test_insertion(self):
-        expression = "insert into table values;"
-        parser = SQLParser.get(expression)
-        self.assertTrue(isinstance(parser,InsertionParser),"Did not get the insert parser.")
-
-    def test_update(self):
-        expression = "update table set;"
-        parser = SQLParser.get(expression)
-        self.assertTrue(isinstance(parser,UpdateParser),"Did not get the update parser.")
-
-    def test_deletion(self):
-        expression = "delete from;"
-        parser = SQLParser.get(expression)
-        self.assertTrue(isinstance(parser,DeletionParser),"Did not get the delete parser.")
 
 if __name__ == '__main__':
     unittest.main()
