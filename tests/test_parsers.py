@@ -24,6 +24,7 @@ class TestParser(unittest.TestCase):
     def test_projection_parsing(self):
         expression = "select a.a,b.b,c from a,b where a.a = b.a;"
         objects = parse_projection(expression)
+        assertIn("a",objects["tables"])
         print objects
         expression = "select a.a,b.b,c from a,b;"
         objects = parse_projection(expression)
