@@ -19,5 +19,15 @@ def parse_projection(expression):
         tables = split_if_not_none(m.group(2),",")
         clauses = split_if_not_none(m.group(4),"and")
         return {"columns":columns,"tables":tables,"clauses":clauses}
+        
+def parse_deletion(expression):
+        """ parsing something like "delete from a where a = 30;" """
+        p = re.compile('delete\s+from\s+(.*?)\s*(where\s(.*?)\s*)?;')
+        m = p.match(expression)
+        print m.group(1)
+        print m.group(3)
+        tables = split_if_not_none(m.group(1),",")
+        clauses = split_if_not_none(m.group(3),"and")
+        return {"tables":tables,"clauses":clauses}
 
 
