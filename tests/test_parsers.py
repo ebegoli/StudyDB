@@ -63,5 +63,34 @@ class TestParser(unittest.TestCase):
         self.assertNotIn(";", objects["tables"])
         self.assertEquals(objects["clauses"],[])
 
+    def test_update_parsing(self):
+        expression = "update a set a.a=30, a.b=\"A\" where a=10;"
+        print expression
+        objects = parse_update(expression)
+        print objects
+        self.assertIn("a", objects["tables"])
+        self.assertIn("a=10", objects["clauses"])
+        self.assertIn("a.a=30", objects["column_values"])
+        self.assertIn("a.b=\"A\"", objects["column_values"])
+
+        expression = "update a set a.a=30, a.b=\"A\";"
+        print expression
+        objects = parse_update(expression)
+        print objects
+        self.assertIn("a", objects["tables"])
+        self.assertIn("a.b=\"A\"", objects["column_values"])
+        self.assertIn("a.a=30", objects["column_values"])
+
+    """
+    print parse_deletion("delete from a where a = 30;")
+    print parse_update("update a set a.a=30, a.b=\"A\" where a=10;")
+    print parse_insert("insert into a(a,b) values(3,\"B\");")
+    print parse_create_table("creatE table xyz (some type(12), some2 type(12));")
+    print parse_drop_table("drop table abc;")
+    print parse_alter_table("alter table abc add   xyz date;")
+    print parse_alter_table("alter Table abc alter  column xyz string;")
+    print parse_alter_table("alter table abc drop column    xyz;")
+    """
+
 if __name__ == '__main__':
     unittest.main()

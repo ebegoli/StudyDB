@@ -1,6 +1,6 @@
 import SocketServer
 
-""" 
+"""
 """
 class TCPClientHandler(SocketServer.StreamRequestHandler):
 
