@@ -78,8 +78,29 @@ def parse_drop_table(expression):
     table = m.group(1)
     return {"table": table}
 
+def parser_error(expression, error=""):
+    return ("Error. "+error+" in an expression: " + expression)
+
+parsers = {"select":parse_projection, "insert":parse_insert, "update":parse_update,"delete":parse_deletion,
+           "drop":parse_drop_table,"alter":parse_alter_table,"create":parse_create_table}
+
+
+
+def parse(expression):
+    # TODO: use assertion here for the syntax - does it have
+    if (expression is None) or (" " not in expression.strip()):
+        return parser_error(expression, "Incomplete statement")
+
+    try:
+      command = expression.strip().split(" ")[0]
+      return parsers[command](expression)
+    except ValueError as value_error:
+        return parser_error(expression, str(value_error))
+
 
 if __name__ == '__main__':
+    print parse("delete from a where a = 30;")
+    print parse("delete;")
     print parse_deletion("delete from a where a = 30;")
     print parse_update("update a set a.a=30, a.b=\"A\" where a=10;")
     print parse_insert("insert into a(a,b) values(3,\"B\");")
