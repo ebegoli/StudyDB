@@ -33,6 +33,10 @@
 #     # interrupt the program with Ctrl-C
 #     server.serve_forever()
 
+""" This is an implementation of the client communication manager component that manages \
+        connections from the clients. It passes the execution of the queries to query parser and other components.
+"""
+
 
 from socket import *
 import thread, threading
